@@ -13,6 +13,16 @@ const vegetables = [
         name:'garlic',
         color: 'beige',
         readyToEat: true
+    },
+    {
+        name:'lettuce',
+        color: 'green',
+        readyToEat: true
+    },
+    {
+        name:'mushroom',
+        color: 'beige',
+        readyToEat: false
     }
 ];    
 
