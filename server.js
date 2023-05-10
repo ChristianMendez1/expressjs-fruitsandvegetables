@@ -10,6 +10,12 @@ const vegetables = require('./models/vegetables.js');
 // Middleware here
 app.set('view engine', 'jsx');
 app.engine('jsx', require('jsx-view-engine').createEngine());
+app.use((req, res, next) => {
+    console.log('I run for all routes');
+    next();
+});
+app.use(express.urlencoded({extended:false}));
+
 
 //Routes Here
 app.get('/', function(req, res){
@@ -23,6 +29,34 @@ app.get('/fruits', function(req, res){
 app.get('/vegetables', function(req, res){
     res.render('vegetables/Index', { vegetables: vegetables });
 });   
+
+app.get('/fruits/new', (req, res) => {
+    res.render('fruits/New');
+});
+
+app.get('/vegetables/new', (req, res) => {
+    res.render('vegetables/New');
+});
+
+app.post('/fruits', (req, res)=>{
+    if(req.body.readyToEat === 'on'){ //if checked, req.body.readyToEat is set to 'on'
+        req.body.readyToEat = true;
+    } else { //if not checked, req.body.readyToEat is undefined
+        req.body.readyToEat = false;
+    }
+    fruits.push(req.body);
+    res.redirect('/fruits'); //send the user back to /fruits
+});
+
+app.post('/vegetables', (req, res)=>{
+    if(req.body.readyToEat === 'on'){ //if checked, req.body.readyToEat is set to 'on'
+        req.body.readyToEat = true;
+    } else { //if not checked, req.body.readyToEat is undefined
+        req.body.readyToEat = false;
+    }
+    vegetables.push(req.body);
+    res.redirect('/vegetables'); //send the user back to /fruits
+});
 
 app.get('/fruits/:indexOfFruitsArray', function(req, res){
     res.render('fruits/Show', { //second param must be an object
